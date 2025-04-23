@@ -8,7 +8,7 @@ import { createClient } from 'nightwatch';
 
 const server = new McpServer({
     name: "MCP NightwatchJS",
-    version: "1.0.0"
+    version: "1.1.0"
 });
 
 // Session management for storing active browser sessions and authenticated users
@@ -20,14 +20,16 @@ const state = {
 
 
 // Helper function to create or get an active session
-async function getSession(browserType = "chrome") {
+async function getSession(browserType) {
+    if (!browserType) {
+        browserType = "chrome";
+    }
     if (state.currentSession) {
         return state.activeSessions.get(state.currentSession);
     }
     console.log("no session found, creating a new one");
     const client = createClient({
         browserName: browserType,
-        env: "./nightwatch.conf.js",
     })
     const browser = await client.launchBrowser();
     console.log("client created");
@@ -35,16 +37,16 @@ async function getSession(browserType = "chrome") {
     state.activeSessions.set(sessionId, browser);
     state.currentSession = sessionId;
     console.log("state updated")
-    return client;
+    return browser;
 }
 
 
 // Browser Management Tools
 server.tool(
     "start_browser",
-    "launches browser",
+    "launches browser in chrome",
     {
-        browser: z.enum(["chrome", "firefox"]).describe("Browser to launch (chrome or firefox)"),
+        browserType: z.enum(["chrome", "firefox"]).optional().default("chrome").describe("Browser type to launch")
     },
     async ({ browser }) => {
         try {
