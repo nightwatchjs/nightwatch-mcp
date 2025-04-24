@@ -89,14 +89,14 @@ server.tool(
     "take_screenshot",
     "captures a screenshot of the current page",
     {
-        outputPath: z.string().optional().describe("Optional path where to save the screenshot. If not provided, returns base64 data.")
+        outputPath: z.string().optional().nullable().describe("Optional path where to save the screenshot. If not provided, returns base64 data.")
     },
     async ({ outputPath }) => {
         try {
             const browser = await getSession();
             const screenshot = await browser.screenshot();
 
-            if (outputPath) {
+            if (outputPath && outputPath !== "") {
                 const fs = await import('fs');
                 await fs.promises.writeFile(outputPath, screenshot, 'base64');
                 return {
