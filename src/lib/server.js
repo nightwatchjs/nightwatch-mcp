@@ -8,7 +8,7 @@ import { createClient } from 'nightwatch';
 
 const server = new McpServer({
     name: "MCP NightwatchJS",
-    version: "1.1.0"
+    version: process.env.npm_package_version,
 });
 
 // Session management for storing active browser sessions and authenticated users
