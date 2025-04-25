@@ -1,6 +1,6 @@
 {
   "name": "@nightwatch/nightwatch-mcp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Nightwatch MCP Server",
   "type": "module",
   "main": "src/lib/server.js",
