@@ -30,6 +30,20 @@ async function getSession(browserType) {
     console.log("no session found, creating a new one");
     const client = createClient({
         browserName: browserType,
+        globals: {},
+        parallel: false,
+        test_workers: false,
+        env: null,
+        test_settings: {
+            default: {
+                desiredCapabilities: {
+                    browserName: "chrome",
+                    "goog:chromeOptions": {
+                        args: ["--headless", "--disable-gpu", "--no-sandbox"],
+                    },
+                },
+            },
+        },
     })
     const browser = await client.launchBrowser();
     console.log("client created");
